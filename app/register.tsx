@@ -1,19 +1,37 @@
 import {
-    StyleSheet,
-    View,
-    Image,
-    TextInput,
-    TouchableOpacity,
-    Text
-  } from "react-native";
-  
-  import { Link } from 'expo-router';
-  
+  StyleSheet,
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Text
+} from "react-native";
+
+import { Link, useNavigation, useRouter } from 'expo-router';
+import { useState } from "react";
   
   const logoApp = require('@/assets/images/logoagendei.png');
   
   // Já indica que esta função é exportada, não precisa ser exportada de novo no fim, export default exporta somente o default sem ()
-  export default function Login() {
+export default function Login() {
+
+  const navigation = useNavigation();
+  const router = useRouter();
+
+  const [name, setName] = useState<string | null>("");
+  const [login, setLogin] = useState<string | null>("");
+  const [password, setPassword] = useState<string | null>("");
+  const [confirmpassword, setConfirmPassword] = useState<string | null>("");
+
+
+  function OnPress() {
+    console.log("clicou para fazer registro")
+    console.log(name)
+    console.log(login)
+    console.log(password)
+    console.log(confirmpassword)
+    router.navigate('/(tabs)')
+  }
     return (
       <View style={styles.container}>
   
@@ -27,25 +45,41 @@ import {
         <View style={styles.main}>
             <View style={styles.inputBox}>
             <Text style={styles.label}>Nome:</Text>
-            <TextInput placeholder="Defina seu nome..." placeholderTextColor={'rgba(160, 160, 160, 1)'} style={styles.input} />
+            <TextInput placeholder="Defina seu nome..." 
+            placeholderTextColor={'rgba(160, 160, 160, 1)'} 
+            style={styles.input} 
+            value = {name || ""}
+            onChangeText={( value ) => setName(value)}/>
             </View>
 
             <View style={styles.inputBox}>
             <Text style={styles.label}>E-mail:</Text>
-            <TextInput placeholder="Defina seu e-mail..." placeholderTextColor={'rgba(160, 160, 160, 1)'} style={styles.input} />
+            <TextInput placeholder="Defina seu e-mail..." 
+            placeholderTextColor={'rgba(160, 160, 160, 1)'} 
+            style={styles.input} 
+            value = {login || ""}
+            onChangeText={( value ) => setLogin(value)}/>
             </View>
 
             <View style={styles.inputBox}>
             <Text style={styles.label}>Senha:</Text>
-            <TextInput placeholder="Defina sua senha..." placeholderTextColor={'rgba(160, 160, 160, 1)'} style={styles.input} />
+            <TextInput placeholder="Defina sua senha..." 
+            placeholderTextColor={'rgba(160, 160, 160, 1)'} 
+            style={styles.input}
+            value = {password || ""}
+            onChangeText={( value ) => setPassword(value)} />
             </View>
 
             <View style={styles.inputBox}>
             <Text style={styles.label}>Confirmar senha:</Text>
-            <TextInput placeholder="Confirme sua senha..." placeholderTextColor={'rgba(160, 160, 160, 1)'} style={styles.input} />
+            <TextInput placeholder="Confirme sua senha..." 
+            placeholderTextColor={'rgba(160, 160, 160, 1)'} 
+            style={styles.input} 
+            value = {confirmpassword || ""}
+            onChangeText={( value ) => setConfirmPassword(value)}/>
             </View>
             
-          <TouchableOpacity style={[styles.button]} onPress={() => (console.log("clicou no button"))}>
+          <TouchableOpacity style={[styles.button]} onPress={OnPress}>
             <Text style={styles.textButton}>Criar conta</Text>
           </TouchableOpacity>
         </View>

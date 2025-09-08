@@ -7,12 +7,26 @@ import {
   Text
 } from "react-native";
 
-import { Link } from 'expo-router';
+import { Link, useNavigation, useRouter } from 'expo-router';
+import { useState } from "react";
 
 const logoApp = require('@/assets/images/logoagendei.png');
 
 // Já indica que esta função é exportada, não precisa ser exportada de novo no fim, export default exporta somente o default sem ()
 export default function Login() {
+
+  const navigation = useNavigation();
+  const router = useRouter();
+
+  const [login, setLogin] = useState<string | null>("");
+  const [password, setPassword] = useState<string | null>("");
+
+  function OnPress() {
+    console.log("clicou para fazer login")
+    console.log(login)
+    console.log(password)
+    router.navigate('/(tabs)')
+  }
   return (
     <View style={styles.container}>
 
@@ -26,19 +40,35 @@ export default function Login() {
       <View style={styles.main}>
         <View style={styles.inputBox}>
           <Text style={styles.label}>E-mail:</Text>
-          <TextInput placeholder="Informe o e-mail de acesso..." placeholderTextColor={'rgba(160, 160, 160, 1)'} style={styles.input} />
+          <TextInput placeholder="Informe o e-mail de acesso..."
+            placeholderTextColor={'rgba(160, 160, 160, 1)'}
+            style={styles.input}
+            value={login || ""}
+            onChangeText={(value) => setLogin(value)} />
         </View>
 
         <View style={styles.inputBox}>
           <Text style={styles.label}>Senha:</Text>
-          <TextInput placeholder="Informe a senha de acesso..." placeholderTextColor={'rgba(160, 160, 160, 1)'} style={styles.input} />
+          <TextInput placeholder="Informe a senha de acesso..."
+            placeholderTextColor={'rgba(160, 160, 160, 1)'}
+            style={styles.input}
+            value={password || ""}
+            onChangeText={(value) => setPassword(value)} />
         </View>
 
-        <TouchableOpacity style={[styles.button]}>
-          <Link href={"/(tabs)"}>
+        {login && ( // Caso login tenha valor
+          <TouchableOpacity style={[styles.button]}
+            onPress={OnPress}>
             <Text style={styles.textButton}>Acessar</Text>
-          </Link>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        )}
+
+        {!login && ( // Caso login estiver nulo
+          <TouchableOpacity style={[styles.disableButton]}>
+            <Text style={styles.textButton}>Acessar</Text>
+          </TouchableOpacity>
+        )}
+
       </View>
 
       <View style={styles.footer}>
@@ -137,6 +167,15 @@ const styles = StyleSheet.create({
 
   button: {
     backgroundColor: 'rgba(13, 110, 253, 1)',
+    width: '80%',
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+  },
+
+  disableButton: {
+    backgroundColor: 'rgb(117, 117, 117)',
     width: '80%',
     height: 50,
     alignItems: 'center',
