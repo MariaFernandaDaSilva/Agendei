@@ -4,7 +4,8 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Text
+  Text,
+  Alert
 } from "react-native";
 
 import { Link, useNavigation, useRouter } from 'expo-router';
@@ -31,6 +32,29 @@ export default function Login() {
     console.log(password)
     console.log(confirmpassword)
 
+        // Validação de login e email
+    if( ! login ){
+      Alert.alert("Email inválido!")
+      return
+    }
+
+    if( ! name ){
+      Alert.alert("Nome inválido!")
+      return
+    }
+
+    if( ! password ){
+      Alert.alert("Senha inválida!")
+      return
+    }
+
+    if( ! confirmpassword ){
+      Alert.alert("Confirmação de senha inválida!")
+      return
+    }else if(password != confirmpassword){
+      Alert.alert("A confirmação de senha não coincide com a senha!")
+      return
+    }
     router.navigate('/(tabs)')
   }
     return (
@@ -80,10 +104,18 @@ export default function Login() {
             onChangeText={( value ) => setConfirmPassword(value)}/>
             </View>
             
-          <TouchableOpacity style={[styles.button]} onPress={OnPress}>
-            <Text style={styles.textButton}>Criar conta</Text>
-          </TouchableOpacity>
-        </View>
+
+            {(name || login || password || confirmpassword) && (
+                <TouchableOpacity style={[styles.button]} onPress={OnPress}>
+                <Text style={styles.textButton}>Criar conta</Text>
+              </TouchableOpacity>   
+            )}
+            { !name && !login && !password && !confirmpassword && (
+              <TouchableOpacity style={[styles.disableButton]} onPress={OnPress}>
+              <Text style={styles.textButton}>Criar conta</Text>
+            </TouchableOpacity>   
+            )} 
+          </View>
   
         <View style={styles.footer}>
           <Text style={styles.text}>
@@ -185,8 +217,16 @@ export default function Login() {
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: 4,
-    }
+    },
   
+    disableButton: {
+      backgroundColor: 'rgb(117, 117, 117)',
+      width: '80%',
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 4,
+    }
   });
   
   // Precisa ser exportada depois
