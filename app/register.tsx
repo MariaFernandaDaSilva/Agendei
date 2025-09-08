@@ -30,6 +30,7 @@ export default function Login() {
     console.log(login)
     console.log(password)
     console.log(confirmpassword)
+
     router.navigate('/(tabs)')
   }
     return (

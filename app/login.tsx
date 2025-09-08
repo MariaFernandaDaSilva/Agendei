@@ -4,7 +4,8 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Text
+  Text,
+  Alert
 } from "react-native";
 
 import { Link, useNavigation, useRouter } from 'expo-router';
@@ -25,6 +26,18 @@ export default function Login() {
     console.log("clicou para fazer login")
     console.log(login)
     console.log(password)
+
+    // Validação de login e email
+    if( ! login ){
+      Alert.alert("Email inválido!")
+      return
+    }
+
+    if( login != "teste@teste.com" || password != "123"){
+      Alert.alert("Login ou Senha inválido!")
+      return
+    }
+
     router.navigate('/(tabs)')
   }
   return (
@@ -56,14 +69,14 @@ export default function Login() {
             onChangeText={(value) => setPassword(value)} />
         </View>
 
-        {login && ( // Caso login tenha valor
+        {(login || password) && ( // Caso login tenha valor
           <TouchableOpacity style={[styles.button]}
             onPress={OnPress}>
             <Text style={styles.textButton}>Acessar</Text>
           </TouchableOpacity>
         )}
 
-        {!login && ( // Caso login estiver nulo
+        {!login && !password && ( // Caso login estiver nulo
           <TouchableOpacity style={[styles.disableButton]}>
             <Text style={styles.textButton}>Acessar</Text>
           </TouchableOpacity>
