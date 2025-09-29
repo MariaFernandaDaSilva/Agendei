@@ -5,7 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  Alert
+  Alert,
+  Button
 } from "react-native";
 
 import { Link, useNavigation, useRouter } from 'expo-router';
@@ -23,6 +24,7 @@ export default function Login() {
   const [login, setLogin] = useState<string | null>("");
   const [password, setPassword] = useState<string | null>("");
   const [confirmpassword, setConfirmPassword] = useState<string | null>("");
+  const [viewPassword, setViewPassword] = useState<boolean>(true)
 
 
   function OnPress() {
@@ -32,7 +34,7 @@ export default function Login() {
     console.log(password)
     console.log(confirmpassword)
 
-        // Validação de login e email
+    // Validação de login e email
     if( ! login ){
       Alert.alert("Email inválido!")
       return
@@ -74,7 +76,7 @@ export default function Login() {
             placeholderTextColor={'rgba(160, 160, 160, 1)'} 
             style={styles.input} 
             value = {name || ""}
-            onChangeText={( value ) => setName(value)}/>
+            onChangeText={( value ) => {setName(value)}}/>
             </View>
 
             <View style={styles.inputBox}>
@@ -83,7 +85,7 @@ export default function Login() {
             placeholderTextColor={'rgba(160, 160, 160, 1)'} 
             style={styles.input} 
             value = {login || ""}
-            onChangeText={( value ) => setLogin(value)}/>
+            onChangeText={( value ) => {setLogin(value)}}/>
             </View>
 
             <View style={styles.inputBox}>
@@ -92,8 +94,16 @@ export default function Login() {
             placeholderTextColor={'rgba(160, 160, 160, 1)'} 
             style={styles.input}
             value = {password || ""}
-            onChangeText={( value ) => setPassword(value)} />
+            onChangeText={( value ) => {setPassword(value)}}
+            secureTextEntry={viewPassword}
+            maxLength={30}
+
+            />
             </View>
+
+            <TouchableOpacity style={[styles.button]} onPress={ () => {setViewPassword( ! viewPassword)}}>
+                <Text style={styles.textButton}>Ver</Text>
+              </TouchableOpacity> 
 
             <View style={styles.inputBox}>
             <Text style={styles.label}>Confirmar senha:</Text>
@@ -101,10 +111,12 @@ export default function Login() {
             placeholderTextColor={'rgba(160, 160, 160, 1)'} 
             style={styles.input} 
             value = {confirmpassword || ""}
-            onChangeText={( value ) => setConfirmPassword(value)}/>
+            onChangeText={( value ) => {setConfirmPassword(value)}}
+            secureTextEntry={viewPassword}
+            maxLength={30}
+            />
             </View>
             
-
             {(name || login || password || confirmpassword) && (
                 <TouchableOpacity style={[styles.button]} onPress={OnPress}>
                 <Text style={styles.textButton}>Criar conta</Text>

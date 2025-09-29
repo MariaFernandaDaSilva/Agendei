@@ -40,6 +40,12 @@ export default function Login() {
 
     router.navigate('/(tabs)')
   }
+
+  function onClickButtonDisable (){
+    Alert.alert("Botão desabilitado!\nInforme os dados para acesso.")
+      return
+
+  }
   return (
     <View style={styles.container}>
 
@@ -71,13 +77,15 @@ export default function Login() {
 
         {(login || password) && ( // Caso login tenha valor
           <TouchableOpacity style={[styles.button]}
-            onPress={OnPress}>
+            onPress={() => (OnPress())}>
             <Text style={styles.textButton}>Acessar</Text>
           </TouchableOpacity>
         )}
 
         {!login && !password && ( // Caso login estiver nulo
-          <TouchableOpacity style={[styles.disableButton]}>
+          <TouchableOpacity 
+          style={[styles.disableButton]}
+          onPress={() => (onClickButtonDisable())}>
             <Text style={styles.textButton}>Acessar</Text>
           </TouchableOpacity>
         )}
